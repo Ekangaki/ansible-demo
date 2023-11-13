@@ -1,0 +1,23 @@
+---
+- name: Installl and Verify apache installation
+  hosts: all
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Ensure apache is at the latest version
+    ansible.builtin.apt:
+      name: apache2
+      state: latest
+
+  - name: Ensure apache is running
+    ansible.builtin.service:
+      name: apache2
+      state: started
+
+  - name: Create a simple file
+    ansible.builtin.command:
+      cmd: touch /home/ubuntu/sample_file 
